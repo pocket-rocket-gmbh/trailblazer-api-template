@@ -19,3 +19,14 @@ curl -X POST -d '{"email": "info@pocket-rocket.io", "password": "Testpass1234!"}
 
 export JWT_TOKEN="replace_from_auth_result"
 ```
+
+## Concepts
+
+### Organizations
+```
+# Retrieve a list of organizations
+curl "$BASE_URL/v1/organizations" -v -H Content-Type:application/json -H "Authorization: Bearer $JWT_TOKEN" |jq '.'
+
+# Retrieve a single organization
+curl "$BASE_URL/v1/organizations/1" -v -H Content-Type:application/json -H "Authorization: Bearer $JWT_TOKEN" |jq '.'
+```

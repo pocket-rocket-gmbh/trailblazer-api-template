@@ -31,6 +31,9 @@ gem 'jwt'
 # For creating dummy data
 gem 'faker'
 
+# Pagination
+gem 'will_paginate', '~> 3.1.0'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
 
