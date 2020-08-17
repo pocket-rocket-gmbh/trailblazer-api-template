@@ -1,24 +1,17 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Edit Secrets
 
-Things you may want to cover:
+`EDITOR=nano rails credentials:edit`
 
-* Ruby version
+## Authentication
 
-* System dependencies
+# Local environment
 
-* Configuration
+```
+export BASE_URL="localhost:3000"
 
-* Database creation
+curl -X POST -d '{"email": "info@pocket-rocket.io", "password": "Testpass1234!"}' $BASE_URL/v1/auth -v -H Content-Type:application/json |jq '.'
 
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+export JWT_TOKEN="replace_from_auth_result"
+```

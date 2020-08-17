@@ -1,7 +1,57 @@
-# This file should contain all the record creation needed to seed the database with its default values.
-# The data can then be loaded with the rails db:seed command (or created alongside the database with db:setup).
-#
-# Examples:
-#
-#   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
-#   Character.create(name: 'Luke', movie: movies.first)
+# init organization
+
+# Scenario setup
+
+user_password = 'Testpass1234!'
+models_used_in_seed = [User, Organization]
+
+# cleanup DB
+if !Rails.env.production?
+  models_used_in_seed.each do |model|
+    model.destroy_all
+  end
+end
+
+10.times { |i|
+  org = Organization.create!(
+    name: Faker::Company.name,
+    status: 'active'
+  )
+  puts "Organization ##{i+1} created"
+
+  user = User.create!(
+    firstname: Faker::Name.first_name,
+    lastname: Faker::Name.last_name,
+    email: Faker::Internet.email,
+    password: user_password,
+    organization: org,
+    role: :admin,
+    status: 'confirmed'
+  )
+
+  puts "User ##{i+1} created"
+
+  user = User.create!(
+    firstname: Faker::Name.first_name,
+    lastname: Faker::Name.last_name,
+    email: Faker::Internet.email,
+    password: user_password,
+    organization: org,
+    role: :user,
+    status: 'confirmed'
+  )
+
+  puts "Admin ##{i+1} created"
+}
+
+# Root user
+root_user = User.create!(
+  firstname: 'Root',
+  lastname: 'User',
+  email: 'info@pocket-rocket.io',
+  password: user_password,
+  organization: Organization.first,
+  role: :root,
+  status: 'confirmed'
+)
+puts "Root user created"

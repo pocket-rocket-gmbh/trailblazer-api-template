@@ -56,6 +56,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
+    bcrypt (3.1.12)
     bootsnap (1.4.8)
       msgpack (~> 1.0)
     builder (3.2.4)
@@ -66,6 +67,7 @@ GEM
     declarative-builder (0.1.0)
       declarative-option (< 0.2.0)
     declarative-option (0.1.0)
+    diff-lcs (1.4.4)
     disposable (0.4.7)
       declarative (>= 0.0.9, < 1.0.0)
       declarative-builder (< 0.2.0)
@@ -95,6 +97,10 @@ GEM
       dry-inflector (~> 0.1, >= 0.1.2)
       dry-logic (~> 1.0, >= 1.0.2)
     erubi (1.9.0)
+    factory_bot (4.11.1)
+      activesupport (>= 3.0.0)
+    faker (2.2.1)
+      i18n (>= 0.8)
     ffi (1.13.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -186,6 +192,23 @@ GEM
       uber (< 0.2.0)
     roar (1.1.0)
       representable (~> 3.0.0)
+    rspec-core (3.9.2)
+      rspec-support (~> 3.9.3)
+    rspec-expectations (3.9.2)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-mocks (3.9.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.9.0)
+    rspec-rails (4.0.1)
+      actionpack (>= 4.2)
+      activesupport (>= 4.2)
+      railties (>= 4.2)
+      rspec-core (~> 3.9)
+      rspec-expectations (~> 3.9)
+      rspec-mocks (~> 3.9)
+      rspec-support (~> 3.9)
+    rspec-support (3.9.3)
     ruby2_keywords (0.0.2)
     spring (2.1.0)
     spring-watcher-listen (2.0.1)
@@ -241,8 +264,11 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bcrypt
   bootsnap (>= 1.4.2)
   byebug
+  factory_bot
+  faker
   grape
   jwt
   listen (~> 3.2)
@@ -254,6 +280,7 @@ DEPENDENCIES
   reform
   reform-rails
   roar
+  rspec-rails (~> 4.0.1)
   spring
   spring-watcher-listen (~> 2.0.0)
   trailblazer-rails

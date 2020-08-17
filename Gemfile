@@ -28,8 +28,14 @@ gem 'reform-rails'
 # JWT Token library
 gem 'jwt'
 
+# For creating dummy data
+gem 'faker'
+
 # Use Active Storage variant
 # gem 'image_processing', '~> 1.2'
+
+# user password encryption
+gem 'bcrypt'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
@@ -40,6 +46,11 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+end
+
+group :test do
+  gem 'rspec-rails', '~> 4.0.1'
+  gem 'factory_bot'
 end
 
 group :development do

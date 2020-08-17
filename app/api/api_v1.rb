@@ -8,6 +8,5 @@ class ApiV1 < Grape::API
 
   format :json
 
-  mount Organizations::Api
-  mount Users::Api
+  mount Authentication::Api
 end
