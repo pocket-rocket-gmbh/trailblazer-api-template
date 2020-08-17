@@ -50,7 +50,7 @@ end
 
 group :test do
   gem 'rspec-rails', '~> 4.0.1'
-  gem 'factory_bot'
+  gem 'factory_bot_rails'
 end
 
 group :development do
