@@ -5,10 +5,10 @@ class JwtService
 
   # Generate a JWT from arguments
   def self.generate(encoding_key, encoding_value, payload)
-    expiration_time = Rails.application.secrets.jwt_expiration_time.hours.from_now.to_i
+    expiration_time = Rails.application.credentials[:jwt_expiration_time].hours.from_now.to_i
     payload['exp']  = expiration_time
     jwt = JWT.encode(payload,
-      Rails.application.secrets.secret_key_base, 'HS512',
+      Rails.application.credentials[:secret_key_base], 'HS512',
       { exp: expiration_time, encoding_key.to_sym => encoding_value }
     )
     return jwt
@@ -25,7 +25,7 @@ class JwtService
   end
 
   def self.decode(token)
-    JWT.decode(token, Rails.application.secrets.secret_key_base, true, { algorithm: 'HS512'})
+    JWT.decode(token, Rails.application.credentials[:secret_key_base], true, { algorithm: 'HS512'})
   rescue => err
     raise DecodingError.new
   end

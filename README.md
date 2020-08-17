@@ -1,5 +1,9 @@
 # README
 
+## Get Routes
+
+`bundle exec rake grape:routes`
+
 ## Edit Secrets
 
 `EDITOR=nano rails credentials:edit`
