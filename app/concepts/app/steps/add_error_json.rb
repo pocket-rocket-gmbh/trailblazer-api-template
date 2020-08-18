@@ -1,4 +1,3 @@
-# Sets http_status to 204
 # Sets the json to an empty hash
 class App::Steps::AddErrorJson < App::Steps::Base
   extend Uber::Callable

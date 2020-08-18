@@ -23,7 +23,7 @@ gem 'rack-cors', require: 'rack/cors'
 gem 'roar'
 gem 'multi_json'
 gem 'reform'
-gem 'reform-rails'
+gem 'dry-validation'
 
 # JWT Token library
 gem 'jwt'

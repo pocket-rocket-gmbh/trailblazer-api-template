@@ -7,6 +7,18 @@ class Organization::Policies::Policy < App::Policies::Policy
     can_access? :organizations, :show
   end
 
+  def create?
+    can_access? :organizations, :create
+  end
+
+  def update?
+    can_access? :organizations, :update
+  end
+
+  def delete?
+    can_access? :organizations, :delete
+  end
+
   def resolve
     case user.role
     when 'root'

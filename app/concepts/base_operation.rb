@@ -1,4 +1,7 @@
 class BaseOperation < Trailblazer::Operation
+  # needed to make class dependencies (self['xxxx']) possible
+  extend ClassDependencies
+  
   step :initialize_errors
 
   # -------------- Steps ---------------------
