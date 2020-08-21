@@ -19,6 +19,7 @@ module App::Endpoint
   class Adapter < Trailblazer::Endpoint::Adapter::API
     step :assign_model
     step App::Steps::BuildPositiveCreateResult
+    step App::Steps::SetHttpStatus
 
     fail App::Steps::AddErrorJson # FIXME
 

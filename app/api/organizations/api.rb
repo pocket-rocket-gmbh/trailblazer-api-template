@@ -42,7 +42,7 @@ class Organizations::Api < Grape::API
     def endpoint(name, **action_options)
       endpoint = endpoint_for(name, config: self)
 
-      advance_endpoint_for_controller(endpoint: endpoint, block_options: options_for(:options_for_block_options,
+      signal, (ctx, _) = advance_endpoint_for_controller(endpoint: endpoint, block_options: options_for(:options_for_block_options,
         controller: action_options[:controller]),  # DISCUSS: how to pass {:controller} around nicely?
 
         operation_class: name,
@@ -51,7 +51,7 @@ class Organizations::Api < Grape::API
       **action_options)
       # invoke_endpoint_with_dsl(endpoint: endpoint, **action_options, &block)
 
-      []
+      ctx[:json]
     end
 
     def endpoint_for(name, config: self.class)
@@ -103,7 +103,7 @@ class Organizations::Api < Grape::API
       #   path: 'v1/organizations',
       #   representer_class: Organization::Representers::Full)
 
-      ctx = @options[:for].endpoint(Organization::Operations::Create, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self)
+      ctx = @options[:for].endpoint(Organization::Operations::Create, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self, status: 201)
 
 
       # status ctx['http_status'] # FIXME: do this in  the lib
