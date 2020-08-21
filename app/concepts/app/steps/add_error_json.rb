@@ -1,7 +1,5 @@
 # Sets the json to an empty hash
 class App::Steps::AddErrorJson < App::Steps::Base
-  extend Uber::Callable
-
   def self.call(options, **)
     logger.debug "Executing #{self}"
     error_hash = App::Representers::Error.new(result: options).as_json

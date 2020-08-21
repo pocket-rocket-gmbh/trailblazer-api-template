@@ -9,8 +9,8 @@ class App::Representers::List
     @path              = path
     @representer_class = representer_class
     @params            = params
-    @current_page      = result['pagination.page']
-    @per_page          = result['pagination.per_page']
+    @current_page      = result[:domain_ctx]['pagination.page']
+    @per_page          = result[:domain_ctx]['pagination.per_page']
     @countless = countless
     @collection = if countless
                     result['model'].paginate(page: current_page, per_page: per_page + 1, total_entries: 0)

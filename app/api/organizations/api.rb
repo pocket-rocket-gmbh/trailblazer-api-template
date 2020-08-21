@@ -1,8 +1,10 @@
 class Organizations::Api < Grape::API
+  def self.assign_policy(ctx, policy:, domain_ctx:, **) # FIXME: use input?
+    domain_ctx[:policy] = policy
+  end
 
   resource :organizations do
     extend Trailblazer::Endpoint::Controller
-    # include Trailblazer::Endpoint::Controller::Rails::Process
 
     # You have to define default behavior.
     def self.options_for_block_options(ctx, controller:, **)
@@ -38,6 +40,11 @@ class Organizations::Api < Grape::API
     endpoint protocol: App::Endpoint::Protocol, adapter: App::Endpoint::Adapter
     endpoint Organization::Operations::Create.to_s, domain_activity: Organization::Operations::Create do {} end
     endpoint Organization::Operations::Show.to_s, domain_activity: Organization::Operations::Show do {Output(:not_found) => End(:not_found)} end
+    endpoint Organization::Operations::Update.to_s, domain_activity: Organization::Operations::Update do {Output(:not_found) => End(:not_found)} end
+    endpoint Organization::Operations::Delete.to_s, domain_activity: Organization::Operations::Delete do {Output(:not_found) => End(:not_found)} end
+    endpoint Organization::Operations::List.to_s, domain_activity: Organization::Operations::List, adapter: App::Endpoint::Adapter::List do
+      step Organizations::Api.method(:assign_policy), before: :domain_activity
+     {} end
 
     include Trailblazer::Endpoint::Controller::InstanceMethods
     def endpoint(name, **action_options)
@@ -90,11 +97,15 @@ class Organizations::Api < Grape::API
 
     desc 'Retrieve a list of organizations'
     get do
-      result = Organization::Operations::ListEndpoint.(params: params, request: request,
-        path: 'v1/organizations',
-        representer_class: Organization::Representers::Full)
-      status result['http_status']
-      result['json']
+      # App::Representers::List.new(
+      # result: options,
+      # request: request,
+      # path: path,
+      # representer_class: representer_class,
+      # params: params,
+      # countless: options['countless']
+
+      @options[:for].endpoint(Organization::Operations::List.to_s, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self)
     end
 
     desc 'Create an organization'
@@ -111,18 +122,12 @@ class Organizations::Api < Grape::API
 
       desc 'Update an organization'
       put do
-        result = Organization::Operations::UpdateEndpoint.(params: params, request: request,
-          path: 'v1/organizations',
-          representer_class: Organization::Representers::Full
-        )
-        status result['http_status']
-        result['json']
+        @options[:for].endpoint(Organization::Operations::Update.to_s, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self)
       end
 
       desc 'delete an organization'
       delete do
-        result = Organization::Operations::DeleteEndpoint.(params: params, request: request)
-        status result['http_status']
+        @options[:for].endpoint(Organization::Operations::Delete.to_s, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self, success_status: 204)
       end
     end
   end

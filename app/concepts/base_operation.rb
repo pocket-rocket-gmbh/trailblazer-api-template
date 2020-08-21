@@ -1,7 +1,7 @@
 class BaseOperation < Trailblazer::Operation
   # needed to make class dependencies (self['xxxx']) possible
   extend ClassDependencies
-  
+
   step :initialize_errors
 
   # -------------- Steps ---------------------
@@ -86,13 +86,13 @@ class BaseOperation < Trailblazer::Operation
 
     unless sort_by.nil?
       if sort_by == 'id' || sort_by == 'created_at' || sort_by == 'updated_at'
-        options['model'] = options['model'].reorder("#{options['model'].table_name}.#{sort_by} #{sort_order} NULLS LAST")
+        options['model'] = options['model'].reorder("#{options['model'].table_name}.#{sort_by} #{sort_order}")
       elsif options['model'].column_names.include?(sort_by)
         # Find which model the sort_by exists on if it's not current table, join it and put the search in the query
         # No point in handling wrong input data here as Postgres will complain anyway when the query is run
         # Allow sorting on columns of other objects
         # ignore cases
-        options['model'] = options['model'].order("lower(#{options['model'].table_name}.#{sort_by}) #{sort_order} NULLS LAST")
+        options['model'] = options['model'].order("lower(#{options['model'].table_name}.#{sort_by}) #{sort_order}")
       end
     end
 
@@ -102,41 +102,6 @@ class BaseOperation < Trailblazer::Operation
     end
 
     return true
-  end
-
-  # Could be refactored with Subprocess but it has the same effort
-
-  def call_nested_logic_operation(operation_class, options, params:, policy:, request: nil, **)
-    current_user_id = nil
-    current_user_id = options['current_user'].id unless options['current_user'].nil?
-
-    logger.debug "Executing call_nested_logic_operation with operation_class: #{operation_class}, current_user_id: #{current_user_id}, policy_class: #{options['policy'].class}"
-
-    result = operation_class.(
-      params: params,
-      current_user: options['current_user'],
-      current_organization: options['current_organization'],
-      request: request,
-      policy: policy,
-      'current_user' => options['current_user'],
-      'current_organization' => options['current_organization'],
-      'policy' => policy,
-      'request' => request
-    )
-
-    options['model'] = result['model']
-
-    options['pagination.page'] = result['pagination.page'] unless result['pagination.page'].nil?
-    options['pagination.per_page'] = result['pagination.per_page'] unless result['pagination.per_page'].nil?
-    options['policy'] = result['policy']
-    options['errors'] = options['errors'].concat result['errors'] unless result['errors'].nil?
-    options['http_status'] = result['http_status'] unless result['http_status'].nil?
-    options['json'] = result['json'] unless result['json'].nil?
-    options['request'] = result['request'] unless result['request'].nil?
-    options['result'] = result['result'] unless result['result'].nil?
-    options['disable_pagination'] = result['disable_pagination'] unless result['disable_pagination'].nil?
-
-    return result.success?
   end
 
 protected
