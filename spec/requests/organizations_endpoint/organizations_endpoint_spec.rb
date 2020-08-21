@@ -90,6 +90,13 @@ RSpec.describe "Organization Endpoints - v1/organization", type: :request do
         end
       end
 
+      context "404" do
+        it "returns 404" do
+          get_json "/v1/organizations/999", {}, @root_token
+          expect(response.status).to eq 404
+        end
+      end
+
       context 'as admin' do
         before(:all) do
           get_json @endpoint, {}, @admin_token

@@ -36,7 +36,8 @@ class Organizations::Api < Grape::API
 
 
     endpoint protocol: App::Endpoint::Protocol, adapter: App::Endpoint::Adapter
-    endpoint Organization::Operations::Create, domain_activity: Organization::Operations::Create do {} end
+    endpoint Organization::Operations::Create.to_s, domain_activity: Organization::Operations::Create do {} end
+    endpoint Organization::Operations::Show.to_s, domain_activity: Organization::Operations::Show do {Output(:not_found) => End(:not_found)} end
 
     include Trailblazer::Endpoint::Controller::InstanceMethods
     def endpoint(name, **action_options)
@@ -97,29 +98,15 @@ class Organizations::Api < Grape::API
     end
 
     desc 'Create an organization'
-    post do
-      # extend Trailblazer::Endpoint::Controller
-
-      # result = Organization::Operations::CreateEndpoint.(params: params, request: request,
-      #   path: 'v1/organizations',
-      #   representer_class: Organization::Representers::Full)
-
-      ctx = @options[:for].endpoint(Organization::Operations::Create, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self, success_status: 201)
-
-
-      # status ctx['http_status'] # FIXME: do this in  the lib
-      # ctx['json']
+    post do                                                 # FIXME: we need strings as keys
+      @options[:for].endpoint(Organization::Operations::Create.to_s, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self, success_status: 201)
     end
 
     route_param :organization_id do
       desc 'Retrieve an organization'
       get do
-        # show organization with id
-        result = Organization::Operations::ShowEndpoint.(params: params, request: request,
-          path: 'v1/organizations',
-          representer_class: Organization::Representers::Full)
-        status result['http_status']
-        result['json']
+        # FIXME: retrieve model via policy!
+        @options[:for].endpoint(Organization::Operations::Show.to_s, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self)
       end
 
       desc 'Update an organization'
