@@ -4,8 +4,8 @@ module App::Endpoint
       true
     end
 
-    step Subprocess(Authentication::Operations::Authenticate), replace: :authenticate, id: :authenticate
-    step Subprocess(Authentication::Operations::Authorize), replace: :policy, id: :policy
+    step Subprocess(Authentication::Operations::Authenticate), replace: :authenticate, id: :authenticate, inherit: true
+    step Subprocess(Authentication::Operations::Authorize), replace: :policy, id: :policy, inherit: true
 
       step :strip_attributes, before: :domain_activity
 
@@ -19,7 +19,6 @@ module App::Endpoint
   class Adapter < Trailblazer::Endpoint::Adapter::API
     step :assign_model
     step App::Steps::BuildPositiveCreateResult
-    step App::Steps::SetHttpStatus
 
     fail App::Steps::AddErrorJson # FIXME
 

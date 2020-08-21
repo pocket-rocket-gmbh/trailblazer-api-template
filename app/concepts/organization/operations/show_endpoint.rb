@@ -1,4 +1,5 @@
-class Organization::Operations::ShowEndpoint < EndpointOperation
+class Organization::Operations::ShowEndpoint < Trailblazer::Operation
+  extend ClassDependencies
   self['model_class'] = Organization
   self['id_param'] = 'organization_id'
 

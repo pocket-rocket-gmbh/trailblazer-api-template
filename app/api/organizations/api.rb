@@ -7,7 +7,7 @@ class Organizations::Api < Grape::API
     # You have to define default behavior.
     def self.options_for_block_options(ctx, controller:, **)
       {
-        success_block:          success_block = ->(ctx, **) { controller.status(ctx['http_status']); ctx['json'] }, # FIXME: {controller} comes from where?
+        success_block:          success_block = ->(ctx, endpoint_ctx:, **) { controller.status(endpoint_ctx[:status]); ctx['json'] }, # FIXME: {controller} comes from where?
         failure_block:          success_block,
         protocol_failure_block: success_block
       }
@@ -57,6 +57,7 @@ class Organizations::Api < Grape::API
     def endpoint_for(name, config: self.class)
         # options = options.merge(protocol_block: block || ->(*) { {} })
       config.options_for(:endpoints, {}).fetch(name) # TODO: test non-existant endpoint
+      # puts Trailblazer::Developer.render(config.options_for(:endpoints, {}).fetch(name) )# TODO: test non-existant endpoint
     end
 
     def advance_endpoint_for_controller(endpoint:, block_options:, **action_options)
@@ -103,7 +104,7 @@ class Organizations::Api < Grape::API
       #   path: 'v1/organizations',
       #   representer_class: Organization::Representers::Full)
 
-      ctx = @options[:for].endpoint(Organization::Operations::Create, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self, status: 201)
+      ctx = @options[:for].endpoint(Organization::Operations::Create, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self, success_status: 201)
 
 
       # status ctx['http_status'] # FIXME: do this in  the lib
