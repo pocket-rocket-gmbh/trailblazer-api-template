@@ -3,7 +3,7 @@
 class App::Steps::BuildPositiveCreateResult < App::Steps::Base
   extend Uber::Callable
 
-  def self.call(options, params:, request:, path:, representer_class:, **)
+  def self.call(options, request:, path:, representer_class:, **)
     logger.debug "Executing #{self}"
     options['http_status'] = 201 if options['http_status'].nil?
 

@@ -16,32 +16,41 @@ class Organizations::Api < Grape::API
     def self.options_for_domain_ctx(ctx, controller:, path:, representer_class:, **)
       {
         params:   controller.params,
-        request:  controller.request,
 
         path: path,
         representer_class: representer_class,
       }
     end
 
+    def self.options_for_endpoint(ctx, controller:, operation_class:, **)
+      {
+        request:         controller.request,
+        operation_class: operation_class,
+      }
+    end
+
     directive :options_for_block_options, method(:options_for_block_options)
     directive :options_for_domain_ctx, method(:options_for_domain_ctx)
+    directive :options_for_endpoint, method(:options_for_endpoint)
 
 
 
     endpoint protocol: App::Endpoint::Protocol, adapter: App::Endpoint::Adapter
-    endpoint Organization::Operations::CreateEndpoint, domain_activity: Organization::Operations::CreateEndpoint do {} end
+    endpoint Organization::Operations::Create, domain_activity: Organization::Operations::Create do {} end
 
     include Trailblazer::Endpoint::Controller::InstanceMethods
     def endpoint(name, **action_options)
       endpoint = endpoint_for(name, config: self)
 
-      ctx = advance_endpoint_for_controller(endpoint: endpoint, block_options: options_for(:options_for_block_options,
+      advance_endpoint_for_controller(endpoint: endpoint, block_options: options_for(:options_for_block_options,
         controller: action_options[:controller]),  # DISCUSS: how to pass {:controller} around nicely?
+
+        operation_class: name,
+
 
       **action_options)
       # invoke_endpoint_with_dsl(endpoint: endpoint, **action_options, &block)
 
-      # raise ctx.inspect
       []
     end
 
@@ -94,7 +103,7 @@ class Organizations::Api < Grape::API
       #   path: 'v1/organizations',
       #   representer_class: Organization::Representers::Full)
 
-      ctx = @options[:for].endpoint(Organization::Operations::CreateEndpoint, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self)
+      ctx = @options[:for].endpoint(Organization::Operations::Create, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self)
 
 
       # status ctx['http_status'] # FIXME: do this in  the lib
