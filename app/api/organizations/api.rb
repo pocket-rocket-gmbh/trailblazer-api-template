@@ -50,61 +50,25 @@ class Organizations::Api < Grape::API
     def endpoint(name, **action_options)
       endpoint = endpoint_for(name, config: self)
 
-      signal, (ctx, _) = advance_endpoint_for_controller(endpoint: endpoint, block_options: options_for(:options_for_block_options,
+      signal, (ctx, _) = Trailblazer::Endpoint::Controller.advance_endpoint_for_controller(endpoint: endpoint, block_options: options_for(:options_for_block_options,
         controller: action_options[:controller]),  # DISCUSS: how to pass {:controller} around nicely?
 
         operation_class: name,
 
+        config_source: self,
 
       **action_options)
-      # invoke_endpoint_with_dsl(endpoint: endpoint, **action_options, &block)
 
       ctx[:json]
     end
 
     def endpoint_for(name, config: self.class)
-        # options = options.merge(protocol_block: block || ->(*) { {} })
       config.options_for(:endpoints, {}).fetch(name) # TODO: test non-existant endpoint
-      # puts Trailblazer::Developer.render(config.options_for(:endpoints, {}).fetch(name) )# TODO: test non-existant endpoint
     end
-
-    def advance_endpoint_for_controller(endpoint:, block_options:, **action_options)
-          domain_ctx, endpoint_options, flow_options = compile_options_for_controller(**action_options) # controller-specific, get from directives.
-
-          endpoint_options = endpoint_options.merge(action_options) # DISCUSS
-
-          Trailblazer::Endpoint::Controller.advance_endpoint(
-            endpoint:      endpoint,
-            block_options: block_options,
-
-            domain_ctx:       domain_ctx,
-            endpoint_options: endpoint_options,
-            flow_options:     flow_options,
-          )
-        end
-
-        # Requires {options_for}
-        def compile_options_for_controller(options_for_domain_ctx: nil, config_source: self, **action_options)
-          flow_options     = config_source.options_for(:options_for_flow_options, **action_options)
-          endpoint_options = config_source.options_for(:options_for_endpoint, **action_options) # "class level"
-          domain_ctx       = options_for_domain_ctx || config_source.options_for(:options_for_domain_ctx, **action_options)
-
-          return domain_ctx, endpoint_options, flow_options
-        end
-
-
 
 
     desc 'Retrieve a list of organizations'
     get do
-      # App::Representers::List.new(
-      # result: options,
-      # request: request,
-      # path: path,
-      # representer_class: representer_class,
-      # params: params,
-      # countless: options['countless']
-
       @options[:for].endpoint(Organization::Operations::List.to_s, path: 'v1/organizations', representer_class: Organization::Representers::Full, controller: self)
     end
 
