@@ -46,26 +46,14 @@ class Organizations::Api < Grape::API
       step Organizations::Api.method(:assign_policy), before: :domain_activity
      {} end
 
-    include Trailblazer::Endpoint::Controller::InstanceMethods
+    # include Trailblazer::Endpoint::Controller::InstanceMethods
+    extend Trailblazer::Endpoint::Controller::InstanceMethods
+    extend Trailblazer::Endpoint::Controller::InstanceMethods::API
+
     def endpoint(name, **action_options)
-      endpoint = endpoint_for(name, config: self)
-
-      signal, (ctx, _) = Trailblazer::Endpoint::Controller.advance_endpoint_for_controller(endpoint: endpoint, block_options: options_for(:options_for_block_options,
-        controller: action_options[:controller]),  # DISCUSS: how to pass {:controller} around nicely?
-
-        operation_class: name,
-
-        config_source: self,
-
-      **action_options)
-
+      ctx = super(name, operation_class: name, **action_options)
       ctx[:json]
     end
-
-    def endpoint_for(name, config: self.class)
-      config.options_for(:endpoints, {}).fetch(name) # TODO: test non-existant endpoint
-    end
-
 
     desc 'Retrieve a list of organizations'
     get do
