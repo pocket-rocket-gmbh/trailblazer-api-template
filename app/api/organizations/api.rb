@@ -51,7 +51,7 @@ class Organizations::Api < Grape::API
     extend Trailblazer::Endpoint::Controller::InstanceMethods::API
 
     def endpoint(name, **action_options)
-      ctx = super(name, operation_class: name, **action_options)
+      ctx = super(name, operation_class: name, config_source: self, **action_options)
       ctx[:json]
     end
 
