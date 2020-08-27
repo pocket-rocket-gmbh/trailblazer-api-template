@@ -16,7 +16,7 @@ module App::Endpoint
     step :assign_model
     step App::Steps::BuildPositiveCreateResult, id: :render
 
-    fail App::Steps::AddErrorJson # FIXME
+    step App::Steps::AddErrorJson, magnetic_to: :failure, Output(:success) => Track(:failure) # FIXME
 
     def assign_model(ctx, domain_ctx:, **) # DISCUSS: make this configurable?
       ctx[:model] = domain_ctx[:model]
