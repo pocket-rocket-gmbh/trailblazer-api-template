@@ -3,6 +3,7 @@
 ## Clone & Distribute template
 
 Copy paste the code base to another folder. Then rename `config/application.rb` `module TrailblazerApiTemplate` to `module <YourNameCamelCased`
+Rename databases on `config/database.yml`
 
 ## Get Routes
 
