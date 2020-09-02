@@ -1,5 +1,9 @@
 # README
 
+## Clone & Distribute template
+
+Copy paste the code base to another folder. Then rename `config/application.rb` `module TrailblazerApiTemplate` to `module <YourNameCamelCased`
+
 ## Get Routes
 
 `bundle exec rake grape:routes`
