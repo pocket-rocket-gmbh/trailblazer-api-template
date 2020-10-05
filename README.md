@@ -1,16 +1,20 @@
 # README
 
+Trailblazer API Template which uses [Grape](https://github.com/ruby-grape/grape) and some Rails modules. It's useful to setup an API for almost anything.
+
 ## Clone & Distribute template
 
 Copy paste the code base to another folder. Then rename `config/application.rb` `module TrailblazerApiTemplate` to `module <YourNameCamelCased`.
 Rename databases on `config/database.yml`.
 Remove and add new git remotes.
 
-## Get Routes
+## Get Endpoint Routes
 
 `bundle exec rake grape:routes`
 
 ## Edit Secrets
+
+Please note that this App uses Rails 6 based credentials. You may have to setup a new master.key to make it work.
 
 `EDITOR=nano rails credentials:edit`
 
@@ -21,12 +25,12 @@ Remove and add new git remotes.
 ```
 export BASE_URL="localhost:3000"
 
-curl -X POST -d '{"email": "info@pocket-rocket.io", "password": "Testpass1234!"}' $BASE_URL/v1/auth -v -H Content-Type:application/json |jq '.'
+curl -X POST -d '{"email": "info@pocket-rocket.io", "password": "PassWord9876"}' $BASE_URL/v1/auth -v -H Content-Type:application/json |jq '.'
 
 export JWT_TOKEN="replace_from_auth_result"
 ```
 
-## Requests
+## Request examples
 
 ### Organizations
 ```

@@ -2,7 +2,7 @@
 
 # Scenario setup
 
-user_password = 'Testpass1234!'
+user_password = 'PassWord9876'
 models_used_in_seed = [User, Organization]
 
 # cleanup DB
