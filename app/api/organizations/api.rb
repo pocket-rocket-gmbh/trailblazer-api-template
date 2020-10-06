@@ -38,11 +38,11 @@ class Organizations::Api < Grape::API
 
 
     endpoint protocol: App::Endpoint::Protocol, adapter: App::Endpoint::Adapter
-    endpoint Organization::Operations::Create.to_s, domain_activity: Organization::Operations::Create do {} end
-    endpoint Organization::Operations::Show.to_s, domain_activity: Organization::Operations::Show do {Output(:not_found) => End(:not_found)} end
-    endpoint Organization::Operations::Update.to_s, domain_activity: Organization::Operations::Update do {Output(:not_found) => End(:not_found)} end
-    endpoint Organization::Operations::Delete.to_s, domain_activity: Organization::Operations::Delete do {Output(:not_found) => End(:not_found)} end
-    endpoint Organization::Operations::List.to_s, domain_activity: Organization::Operations::List, adapter: App::Endpoint::Adapter::List do
+    endpoint Organization::Operations::Create
+    endpoint Organization::Operations::Show do {Output(:not_found) => End(:not_found)} end
+    endpoint Organization::Operations::Update do {Output(:not_found) => End(:not_found)} end
+    endpoint Organization::Operations::Delete do {Output(:not_found) => End(:not_found)} end
+    endpoint Organization::Operations::List, adapter: App::Endpoint::Adapter::List do
       step Organizations::Api.method(:assign_policy), before: :domain_activity
      {} end
 
