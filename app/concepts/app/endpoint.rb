@@ -10,6 +10,11 @@ module App::Endpoint
       domain_ctx[:params].each {|k, v| v.strip! if v.is_a?(String)}
       true
     end
+
+    class Authentication < Protocol
+      step nil, delete: :authenticate
+      step nil, delete: :policy
+    end
   end
 
   class Adapter < Trailblazer::Endpoint::Adapter::API
