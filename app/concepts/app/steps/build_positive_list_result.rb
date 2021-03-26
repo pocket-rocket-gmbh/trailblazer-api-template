@@ -1,6 +1,7 @@
 # Sets the json to the according list output
 class App::Steps::BuildPositiveListResult < App::Steps::Base
   def self.call(options, domain_ctx:, request:, path:, representer_class:, **)
+
     options['json'] = App::Representers::List.new(
       result: options,
       request: request,
