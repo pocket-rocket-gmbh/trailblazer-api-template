@@ -7,7 +7,7 @@ class Authentication::Operations::Authorize < BaseOperation
   # sets options['policy'] to the initialized policy object
   #
   # Breaks the circuit when the policy method returns false and adds error
-  def init_and_check_policy_result(options, operation_class:, **)
+  def init_and_check_policy_result(options, operation_class:, current_organization:, **)
     logger.debug "Executing init_and_check_policy_result"
     module_name = operation_class.to_s.split('::').first
 
@@ -30,7 +30,7 @@ class Authentication::Operations::Authorize < BaseOperation
       raise "No model with name #{module_name} could be found!"
     end
 
-    organization_id   = options['current_organization'].id
+    organization_id   = current_organization.id
     options['policy'] = policy_class.new(options['current_user'], model)
 
     unless options['policy'].respond_to?(check_method)

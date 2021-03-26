@@ -1,7 +1,7 @@
 require 'uri'
 
 class App::Representers::List
-  attr_reader :result, :request, :path, :representer_class, :params, :collection, :current_page, :per_page, :countless
+  attr_reader :result, :request, :path, :representer_class, :params, :collection, :current_page, :per_page, :countless, :total_results
 
   def initialize(result:, request:, path:, representer_class:, params:, countless: false, **)
     @result            = result
@@ -9,8 +9,9 @@ class App::Representers::List
     @path              = path
     @representer_class = representer_class
     @params            = params
-    @current_page      = result['pagination.page']
-    @per_page          = result['pagination.per_page']
+    @total_results     = result['model'].count
+    @current_page      = result[:domain_ctx]['pagination.page']
+    @per_page          = result[:domain_ctx]['pagination.per_page']
     @countless = countless
     @collection = if countless
                     result['model'].paginate(page: current_page, per_page: per_page + 1, total_entries: 0)
@@ -65,7 +66,7 @@ class App::Representers::List
     end
 
     {
-        total_results: (collection.count unless countless),
+        total_results: total_results,
         total_pages: (total_pages unless countless),
         current_page: current_page,
         per_page: per_page,
