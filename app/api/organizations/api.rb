@@ -1,4 +1,4 @@
-class Organizations::Api < Grape::API
+class Organizations::Api < Api::Base
   def self.assign_policy(ctx, policy:, domain_ctx:, **) # FIXME: use input?
     domain_ctx[:policy] = policy
   end

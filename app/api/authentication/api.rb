@@ -1,4 +1,4 @@
-class Authentication::Api < Grape::API
+class Authentication::Api < Api::Base
   resource :auth do
     extend Trailblazer::Endpoint::Controller
 
