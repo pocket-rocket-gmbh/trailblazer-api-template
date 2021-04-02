@@ -5,6 +5,9 @@ module App::Endpoint
 
     step :strip_attributes, before: :domain_activity
 
+    Trailblazer::Endpoint::Protocol::Controller.insert_copy_to_domain_ctx!(self, {:current_user => :current_user})
+    Trailblazer::Endpoint::Protocol::Controller.insert_copy_to_domain_ctx!(self, {:policy => :policy})
+
     # def strip_attributes(options, params:, **)
     def strip_attributes(options, domain_ctx:, **)
       domain_ctx[:params].each {|k, v| v.strip! if v.is_a?(String)}
