@@ -31,7 +31,7 @@ class Authentication::Operations::Authorize < BaseOperation
     end
 
     organization_id   = current_organization.id
-    options['policy'] = policy_class.new(options['current_user'], model)
+    options['policy'] = policy_class.new(options['current_user'], model, options[:domain_ctx][:params])
 
     unless options['policy'].respond_to?(check_method)
       raise "The policy #{default_policy_class_name} does not define the check method: #{check_method}. Please define the according method in the policy class!"

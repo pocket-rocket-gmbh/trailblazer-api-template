@@ -40,13 +40,19 @@ gem 'faker'
 gem 'will_paginate', '~> 3.1.0'
 
 # Use Active Storage variant
-# gem 'image_processing', '~> 1.2'
+gem 'image_processing', '~> 1.0'
+
+# support for base64 images in Active Storage
+gem 'active_storage_base64'
 
 # user password encryption
 gem 'bcrypt'
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
+
+# email validation
+gem 'email_validator'
 
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'

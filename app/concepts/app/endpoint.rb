@@ -5,8 +5,12 @@ module App::Endpoint
 
     step :strip_attributes, before: :domain_activity
 
-    Trailblazer::Endpoint::Protocol::Controller.insert_copy_to_domain_ctx!(self, {:current_user => :current_user})
-    Trailblazer::Endpoint::Protocol::Controller.insert_copy_to_domain_ctx!(self, {:policy => :policy})
+    Trailblazer::Endpoint::Protocol::Controller.insert_copy_to_domain_ctx!(self, {
+        :current_organization => :current_organization,
+        :current_user => :current_user,
+        :policy => :policy
+      }
+    )
 
     # def strip_attributes(options, params:, **)
     def strip_attributes(options, domain_ctx:, **)
@@ -22,7 +26,7 @@ module App::Endpoint
 
   class Adapter < Trailblazer::Endpoint::Adapter::API
     step :assign_model
-    step App::Steps::BuildPositiveCreateResult, id: :render
+    step App::Steps::BuildPositiveResult, id: :render
 
     step App::Steps::AddErrorJson, magnetic_to: :failure, Output(:success) => Track(:failure) # FIXME
 
@@ -32,6 +36,16 @@ module App::Endpoint
 
     class List < Adapter
       step App::Steps::BuildPositiveListResult, replace: :render
+    end
+  end
+
+  class PlainResult < Trailblazer::Endpoint::Adapter::API
+    step :assign_result
+    step App::Steps::BuildPlainResult
+    step App::Steps::AddErrorJson, magnetic_to: :failure, Output(:success) => Track(:failure)
+
+    def assign_result(ctx, domain_ctx:, **)
+      ctx[:result] = domain_ctx[:result]
     end
   end
 end

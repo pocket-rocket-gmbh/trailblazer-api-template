@@ -1,0 +1,9 @@
+Hey <%= @user.firstname %> <%= @user.lastname %>,
+
+Melden Sie sich mit Ihrer E-Mailadresse und dem folgenden temporären Passwort an:
+
+<%= @user.password %>
+
+<%= ENV['FRONTEND_URL'] %>/#/login
+
+Viel Spaß

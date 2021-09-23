@@ -1,5 +1,5 @@
 # Sets the json to the according entity output using the representer_class given to the operation
-class App::Steps::BuildPositiveCreateResult < App::Steps::Base
+class App::Steps::BuildPositiveResult < App::Steps::Base
   def self.call(options, request:, path:, representer_class:, **)
     logger.debug "Executing #{self}"
 

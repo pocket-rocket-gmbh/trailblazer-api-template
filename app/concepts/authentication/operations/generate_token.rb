@@ -10,7 +10,6 @@ class Authentication::Operations::GenerateToken < BaseOperation
     logger.info "Executing check_credentials ..."
     email = params[:email]
     password = params[:password]
-    puts "email: #{email}"
 
     if email.nil?
       add_error options,
@@ -35,6 +34,7 @@ class Authentication::Operations::GenerateToken < BaseOperation
     end
 
     options['current_user'] = user
+    options['current_user'].last_seen = Time.now
     options['current_organization_id'] = user.organization_id
   end
 

@@ -39,6 +39,10 @@ class Authentication::Operations::Authenticate < BaseOperation
       )
       logger.info "current_user#role : #{options['current_user'].role}"
       logger.info "current_user#id : #{options['current_user'].id}"
+
+      # update last_seen
+      options['current_user'].last_seen = Time.now
+      options['current_user'].save!
     end
     true
   rescue ActiveRecord::RecordNotFound => err

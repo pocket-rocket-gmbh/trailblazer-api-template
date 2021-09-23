@@ -3,7 +3,7 @@ class Authentication::Operations::GenerateTokenEndpoint < PublicEndpointOperatio
   step :build_json_response
   # do not forget to add json errors
   fail :set_error_status
-  fail App::Steps::AddErrorJson
+  # fail App::Steps::AddErrorJson
 
   def build_json_response(options, **)
     options['http_status'] = 200
@@ -16,5 +16,6 @@ class Authentication::Operations::GenerateTokenEndpoint < PublicEndpointOperatio
 
   def set_error_status(options, **)
     options['http_status'] = 401
+    options['json'] = options[:errors]
   end
 end

@@ -5,12 +5,25 @@ class BaseOperation < Trailblazer::Operation
   step :initialize_errors
 
   # -------------- Steps ---------------------
+
   # initialize the options['errors'] array
   def initialize_errors(options, **)
     options['errors'] = []
   end
 
   # --------------- Helpers -----------------
+
+  # Scopes the model to the logged in organization if requested
+  def scope_model_to_organization(options, model:, current_organization:, **)
+    model.organization = current_organization
+    true
+  end
+
+  # Scopes the model to the logged in user if requested
+  def scope_model_to_user(options, model:, current_user:, **)
+    model.user = current_user
+    true
+  end
 
   # Adds an error to the options['errors'] hash
   #
@@ -19,9 +32,9 @@ class BaseOperation < Trailblazer::Operation
   # @param exception [StandardError] the exception
   # @param code [String] an identifier for the error
   # @param field_name [String] if it is a validation error: the name of the field that could not be validated
-  def add_error(options, message:, exception: nil, code:, field_name: nil)
+  def add_error(options, message:, exception: nil, code:, field_name: nil, field_data: nil)
     options['errors'] << { code: code,
-      message: message, exception: exception, field_name: field_name }
+      message: message, exception: exception, field_name: field_name, field_data: field_data }
   end
 
   # @param options [Hash] the operation options that are passed along
@@ -30,7 +43,7 @@ class BaseOperation < Trailblazer::Operation
     return if errors.count < 1
     errors.each do |err|
       add_error(options, message: err[:message], exception: err[:exception],
-        field_name: err[:field_name], code: err[:code])
+        field_name: err[:field_name], code: err[:code], field_data: err[:field_data])
     end
   end
 
@@ -85,7 +98,7 @@ class BaseOperation < Trailblazer::Operation
     end
 
     unless sort_by.nil?
-      if sort_by == 'id' || sort_by == 'created_at' || sort_by == 'updated_at'
+      if sort_by == 'id' || sort_by == 'created_at' || sort_by == 'updated_at' || sort_by == 'start_date' || sort_by == 'status'
         options['model'] = options['model'].reorder("#{options['model'].table_name}.#{sort_by} #{sort_order}")
       elsif options['model'].column_names.include?(sort_by)
         # Find which model the sort_by exists on if it's not current table, join it and put the search in the query
@@ -109,8 +122,19 @@ protected
   # iterates the contract errors and formats it to the options['errors'] format
   def add_contract_errors(options)
     if !options['contract.default'].nil? && options['contract.default'].respond_to?(:errors)
+
       options['contract.default'].errors.messages.each do |err|
-        add_error options, message: "#{err.first} #{err.last.last}", code: "#{options['contract.default'].model.class.to_s.downcase}.#{err.first}.invalid", field_name: err.first
+        code = "#{options['contract.default'].model.class.to_s.downcase}.#{err.first}.invalid"
+        if err.last.last && !err.last.last.is_a?(String) && err.last.last[:code]
+          code = err.last.last[:code]
+        end
+
+        message = "#{err.first} #{err.last.last}"
+        if err.last.last && !err.last.last.is_a?(String) && err.last.last[:message]
+          message = err.last.last[:message]
+        end
+
+        add_error options, message: message, code: code, field_name: err.first
       end
     end
   end

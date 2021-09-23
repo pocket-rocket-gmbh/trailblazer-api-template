@@ -10,4 +10,5 @@ class ApiV1 < Grape::API
 
   mount Authentication::Api
   mount Organizations::Api
+  mount Users::Api
 end

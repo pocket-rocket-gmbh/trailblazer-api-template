@@ -1,0 +1,11 @@
+Hey <%= @user.firstname %> <%= @user.lastname %>,<br/>
+<br/>
+
+Melden Sie sich mit Ihrer E-Mailadresse und dem folgenden temporären Passwort an:<br/>
+<div align="center" style="font-size:32px;font-weight:bold; border:1px solid grey;border-radius:20px; padding: 7px; margin: 15px;"><%= @user.password %></div>
+
+<br/>
+<div align="center" style="margin-top: 15px;"><a class="cta" href="<%= ENV['FRONTEND_URL'] %>/#/login">Zur Webversion</a></div>
+<br/>
+
+Viel Spaß
