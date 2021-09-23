@@ -1,13 +1,5 @@
 # README
 
-Trailblazer API Template which uses [Grape](https://github.com/ruby-grape/grape) and some Rails modules. It's useful to setup an API for almost anything.
-
-## Clone & Distribute template
-
-Copy paste the code base to another folder. Then rename `config/application.rb` `module TrailblazerApiTemplate` to `module <YourNameCamelCased`.
-Rename databases on `config/database.yml`.
-Remove and add new git remotes.
-
 ## Get Endpoint Routes
 
 `bundle exec rake grape:routes`
