@@ -23,13 +23,13 @@ default: &default
 
 development:
   <<: *default
-  database: wr_api_development
+  database: trailblazer_api_template_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  #username: wr_api
+  #username: trailblazer_api_template
 
   # The password associated with the postgres role (username).
   #password:
@@ -57,7 +57,7 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
-  database: wr_api_test
+  database: trailblazer_api_template_test
 
 # As with config/credentials.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -80,6 +80,6 @@ test:
 #
 production:
   <<: *default
-  database: wr_api_production
-  username: wr_api
-  password: <%= ENV['WR_API_DATABASE_PASSWORD'] %>
+  database: trailblazer_api_template_production
+  username: trailblazer_api_template
+  password: <%= ENV['TRAILBLAZER_API_TEMPLATE_DATABASE_PASSWORD'] %>

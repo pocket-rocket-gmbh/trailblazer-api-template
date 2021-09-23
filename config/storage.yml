@@ -1,3 +1,7 @@
+local:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
 test:
   service: Disk
   root: <%= Rails.root.join("tmp/storage") %>
@@ -7,11 +11,11 @@ amazon_development:
   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
   region: eu-central-1
-  bucket: pocket-rocket-development
+  bucket: trailblazer-api-template-development
 
 amazon_production:
   service: S3
   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
   region: eu-central-1
-  bucket: abacuzz-production
+  bucket: trailblazer-api-template-production
