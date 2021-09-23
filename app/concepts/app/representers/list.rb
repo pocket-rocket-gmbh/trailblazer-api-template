@@ -55,14 +55,12 @@ class App::Representers::List
       next_url = nil
     else
       next_url = "#{request.host_with_port}/#{path}?page=#{current_page+1}&per_page=#{per_page}"
-      next_url = URI::escape next_url
     end
 
     if set_prev_url
       prev_url = nil
     else
       prev_url = "#{request.host_with_port}/#{path}?page=#{current_page-1}&per_page=#{per_page}"
-      prev_url = URI::escape prev_url
     end
 
     {
@@ -99,6 +97,5 @@ class App::Representers::List
 
     def current_url
       current_url = "#{request.host_with_port}/#{path}?page=#{current_page}&per_page=#{per_page}"
-      URI::escape current_url
     end
 end

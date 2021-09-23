@@ -9,7 +9,6 @@ FactoryBot.define do
     street { Faker::Address.street_name }
     zip { Faker::Address.zip }
     city { Faker::Address.city }
-    country { Faker::Address.country }
     phone { Faker::PhoneNumber.cell_phone_in_e164  }
     fax { Faker::PhoneNumber.cell_phone_in_e164 }
     email { Faker::Internet.email }

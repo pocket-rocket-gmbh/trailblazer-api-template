@@ -48,6 +48,13 @@ class App::AccessPrivileges
           update_password: true,
           delete: false
         },
+        customers: {
+          list: true,
+          show: true,
+          create: false,
+          update: false,
+          delete: false
+        },
       },
       locked_attributes: {
         users: ['role', 'password']
@@ -67,6 +74,13 @@ class App::AccessPrivileges
           invite: true,
           update: true,
           update_password: true,
+          delete: true
+        },
+        customers: {
+          list: true,
+          show: true,
+          create: true,
+          update: true,
           delete: true
         },
       }

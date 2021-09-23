@@ -1,3 +1,3 @@
 class Customer < ApplicationRecord
-  belongs_to :organizaton
+  belongs_to :organization
 end
