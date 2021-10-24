@@ -1,43 +1,38 @@
 class Authentication::Api < Api::Base
-  resource :auth do
-    extend Trailblazer::Endpoint::Controller
+  include Trailblazer::Endpoint::Grape::Controller
 
-    endpoint(
-      Authentication::Operations::GenerateTokenEndpoint,
-      protocol: App::Endpoint::Protocol::Authentication,
-      adapter: Trailblazer::Endpoint::Adapter::API
-    )
-
-    def self.options_for_block_options(ctx, controller:, **)
-      success_block = -> (ctx, **) do
-        controller.header 'Authorization', "Bearer #{ctx[:jwt_token]}"
-        controller.status ctx[:http_status]
-      end
-
-      failure_block = -> (ctx, **) do
-        controller.status ctx[:http_status]
-      end
-
-      {
-        success_block:          success_block,
-        failure_block:          failure_block,
-        protocol_failure_block: failure_block,
-      }
+  def self.options_for_block_options(ctx, controller:, **)
+    success_block = -> (ctx, endpoint_ctx:, jwt_token:, http_status:, **) do
+      controller.header 'Authorization', "Bearer #{jwt_token}"
+      controller.status http_status
+      controller.body endpoint_ctx[:domain_ctx][:json]
     end
-    directive :options_for_block_options, method(:options_for_block_options)
 
-    extend Trailblazer::Endpoint::Controller::InstanceMethods
-    extend Trailblazer::Endpoint::Controller::InstanceMethods::API
+    failure_block = -> (ctx, http_status:, **) do
+      controller.status http_status
+    end
 
+    {
+      success_block:          success_block,
+      failure_block:          failure_block,
+      protocol_failure_block: failure_block,
+    }
+  end
+
+  directive :options_for_block_options, method(:options_for_block_options)
+
+  endpoint(
+    Authentication::Operations::GenerateTokenEndpoint,
+    protocol: App::Endpoint::Protocol::Authentication,
+    adapter: Trailblazer::Endpoint::Adapter::API
+  )
+
+  resource :auth do
     post do
-      ctx = options[:for].endpoint(
+      endpoint(
         Authentication::Operations::GenerateTokenEndpoint,
-        config_source: options[:for],
-        controller: self,
         options_for_domain_ctx: { params: params }
       )
-
-      ctx[:domain_ctx][:json]
     end
   end
 end
