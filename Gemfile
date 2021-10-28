@@ -24,7 +24,7 @@ gem 'roar'
 gem 'multi_json'
 gem 'reform'
 gem 'dry-validation'
-gem "trailblazer-endpoint", github: "trailblazer/trailblazer-endpoint"
+gem "trailblazer-endpoint", github: "yogeshjain999/trailblazer-endpoint", branch: "grape-integration"
 
 gem 'representable', '~> 3.0.4'
 

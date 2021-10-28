@@ -1,6 +1,7 @@
 GIT
-  remote: https://github.com/trailblazer/trailblazer-endpoint.git
-  revision: aa4e07fad17584c9cc158e7435a5c40cd5e92bf4
+  remote: https://github.com/yogeshjain999/trailblazer-endpoint.git
+  revision: 23f6e9f2e48b31fcca1ac5eb83313bcd948776a5
+  branch: grape-integration
   specs:
     trailblazer-endpoint (0.0.8)
       trailblazer-activity-dsl-linear (>= 0.4.0, < 0.5.0)
