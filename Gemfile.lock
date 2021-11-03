@@ -305,7 +305,7 @@ DEPENDENCIES
   bcrypt
   bootsnap (>= 1.4.2)
   byebug
-  dry-validation
+  dry-validation (~> 1.5)
   email_validator
   factory_bot_rails
   faker
@@ -331,7 +331,7 @@ DEPENDENCIES
   will_paginate (~> 3.1.0)
 
 RUBY VERSION
-   ruby 2.7.4p191
+   ruby 3.0.2p107
 
 BUNDLED WITH
-   2.1.4
+   2.2.22
