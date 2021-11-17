@@ -20,13 +20,11 @@ gem 'puma'
 gem 'trailblazer-rails'
 gem 'grape'
 gem 'rack-cors', require: 'rack/cors'
-gem 'roar'
 gem 'multi_json'
-gem 'reform'
-gem 'dry-validation', '~> 1.5'
+gem 'reform', '2.6.1'
+gem "disposable", github: "apotonick/disposable", branch: "master"
+gem 'dry-validation'
 gem "trailblazer-endpoint", github: "yogeshjain999/trailblazer-endpoint", branch: "grape-integration"
-
-gem 'representable', '~> 3.0.4'
 
 gem "sqlite3"
 

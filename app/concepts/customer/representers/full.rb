@@ -1,8 +1,5 @@
-require 'roar/decorator'
-require 'roar/json'
-
-class Customer::Representers::Full < Roar::Decorator
-  include Roar::JSON
+class Customer::Representers::Full < Representable::Decorator
+  include Representable::JSON
 
   property :id
 
