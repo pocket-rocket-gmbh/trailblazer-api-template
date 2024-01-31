@@ -4,6 +4,7 @@ class Organization::Operations::Update < BaseOperation
   step Contract::Build( constant: Organization::Contracts::Update )
   step Contract::Validate()
   step Contract::Persist()
+  step App::Steps::AddOrRemoveBase64Image
 
   fail :process_errors
 end

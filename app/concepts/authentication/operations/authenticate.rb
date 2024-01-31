@@ -6,7 +6,7 @@ class Authentication::Operations::Authenticate < BaseOperation
 
   def verify_token(options, request:, **)
     logger.debug "Executing verify_token"
-    auth_header = request.headers['Authorization']
+    auth_header = request.headers['Authorization'] || request.headers['authorization']
     jwt_encoded_token = auth_header.split(' ').last
     options['encoded_jwt_token'] = jwt_encoded_token
     raise StandardError if JwtService.expired?(jwt_encoded_token)

@@ -11,11 +11,11 @@ amazon_development:
   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
   region: eu-central-1
-  bucket: trailblazer-api-template-development
+  bucket: rocket-api-development-2
 
 amazon_production:
   service: S3
   access_key_id: <%= Rails.application.credentials.dig(:aws, :access_key_id) %>
   secret_access_key: <%= Rails.application.credentials.dig(:aws, :secret_access_key) %>
   region: eu-central-1
-  bucket: trailblazer-api-template-production
+  bucket: rocket-api-production

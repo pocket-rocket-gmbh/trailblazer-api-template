@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '3.0.2'
+ruby '3.2.2'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
-gem 'rails', '~> 6.1.4.1'
+gem 'rails', '~> 7.1.1'
 # Use postgresql as the database for Active Record
 gem 'pg', '>= 0.18', '< 2.0'
 # Use Puma as the app server
@@ -18,13 +18,22 @@ gem 'puma'
 
 # API stack
 gem 'trailblazer-rails'
+gem 'trailblazer-context'
+
+gem "trailblazer-activity-dsl-linear"
+gem "trailblazer-activity"
+gem "trailblazer-developer"
+gem "trailblazer-macro"
+gem "trailblazer-macro-contract"
+gem "trailblazer-operation"
+gem "trailblazer-endpoint"
+
 gem 'grape'
-gem 'rack-cors', require: 'rack/cors'
+gem 'rack-cors', '1.1.1', require: 'rack/cors'
 gem 'multi_json'
-gem 'reform', '2.6.1'
+gem "reform", "2.6.1"
 gem "disposable", github: "apotonick/disposable", branch: "master"
 gem 'dry-validation'
-gem "trailblazer-endpoint", github: "yogeshjain999/trailblazer-endpoint", branch: "grape-integration"
 
 gem "sqlite3"
 
@@ -41,7 +50,8 @@ gem 'will_paginate', '~> 3.1.0'
 gem 'image_processing', '~> 1.0'
 
 # support for base64 images in Active Storage
-gem 'active_storage_base64'
+gem 'active_storage_base64', '~> 2.0.0'
+gem 'base64'
 
 # user password encryption
 gem 'bcrypt'
@@ -61,7 +71,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'rspec-rails', '~> 4.0.1'
+  gem 'rspec-rails'
   gem 'factory_bot_rails'
 end
 

@@ -19,6 +19,10 @@ class Organization::Policies::Policy < App::Policies::Policy
     can_access? :organizations, :delete
   end
 
+  def sneak_in?
+    can_access? :organizations, :sneak_in
+  end
+
   def resolve
     case user.role
     when 'root'
@@ -36,5 +40,7 @@ class Organization::Policies::Policy < App::Policies::Policy
       raise ActiveRecord::RecordNotFound.new if id.to_s != user.organization_id.to_s
       model.find id
     end
+
+    rescue ActiveRecord::RecordNotFound => err
   end
 end

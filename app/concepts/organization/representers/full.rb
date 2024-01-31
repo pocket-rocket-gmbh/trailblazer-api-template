@@ -6,4 +6,6 @@ class Organization::Representers::Full < Representable::Decorator
   property :status
   property :created_at
   property :updated_at
+
+  property :image_url
 end

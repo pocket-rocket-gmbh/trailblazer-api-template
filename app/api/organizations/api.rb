@@ -37,6 +37,7 @@ class Organizations::Api < Api::Base
   endpoint protocol: App::Endpoint::Protocol, adapter: App::Endpoint::Adapter
   endpoint Organization::Operations::Create
   endpoint Organization::Operations::Show do {Output(:not_found) => End(:not_found)} end
+  endpoint Organization::Operations::SneakIn do {Output(:not_found) => End(:not_found)} end
   endpoint Organization::Operations::Update do {Output(:not_found) => End(:not_found)} end
   endpoint Organization::Operations::Delete do {Output(:not_found) => End(:not_found)} end
   endpoint Organization::Operations::List, adapter: App::Endpoint::Adapter::List do
@@ -77,6 +78,11 @@ class Organizations::Api < Api::Base
       desc 'delete an organization'
       delete do
         endpoint(Organization::Operations::Delete.to_s, path: 'v1/organizations', representer_class: Organization::Representers::Full, success_status: 204)
+      end
+
+      desc 'Sneak into an organization as root'
+      get 'sneak_in' do
+        endpoint(Organization::Operations::SneakIn.to_s, path: 'v1/organizations', representer_class: Organization::Representers::Full)
       end
     end
   end
