@@ -38,6 +38,7 @@ class Users::Api < Api::Base
   endpoint User::Operations::Me do {Output(:not_found) => End(:not_found)} end
   endpoint User::Operations::Invite
   endpoint User::Operations::Show do {Output(:not_found) => End(:not_found)} end
+  endpoint User::Operations::GetGeolocation do {Output(:not_found) => End(:not_found)} end
   endpoint User::Operations::Update do {Output(:not_found) => End(:not_found)} end
   endpoint User::Operations::UpdatePassword
   endpoint User::Operations::Delete do {Output(:not_found) => End(:not_found)} end
@@ -73,6 +74,11 @@ class Users::Api < Api::Base
     end
 
     route_param :user_id do
+      desc 'Retrieve a users geolocation'
+      get 'geolocation' do
+        endpoint(User::Operations::GetGeolocation.to_s, path: 'v1/users', representer_class: User::Representers::Full)
+      end
+
       desc 'Retrieve a user'
       get do
         endpoint(User::Operations::Show.to_s, path: 'v1/users', representer_class: User::Representers::Full)
