@@ -3,6 +3,11 @@ class User::Contracts::Update < Reform::Form
   property :lastname
   property :status
   property :role
+  property :city
+  property :zip_code
+  property :country
+  property :latitude
+  property :longitude
   # property :password
   # property :current_user, virtual: true
 

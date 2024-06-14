@@ -11,6 +11,10 @@ class User::Policies::Policy < App::Policies::Policy
     can_access? :users, :list_internal
   end
 
+  def get_geolocation?
+    can_access? :users, :geolocation
+  end
+
   def show?
     can_access? :users, :show
   end

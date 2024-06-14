@@ -12,6 +12,11 @@ class User::Representers::Full < Representable::Decorator
   property :status
   property :role
   property :last_seen
+  property :city
+  property :zip_code
+  property :country
+  property :latitude
+  property :longitude
 
   property :profile_image_url
 
