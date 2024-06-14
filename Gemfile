@@ -62,6 +62,9 @@ gem 'bootsnap', '>= 1.4.2', require: false
 # email validation
 gem 'email_validator'
 
+# managing locations - default via OpenStreetMap
+gem 'geocoder', '~> 1.8'
+
 # Use Rack CORS for handling Cross-Origin Resource Sharing (CORS), making cross-origin AJAX possible
 # gem 'rack-cors'
 

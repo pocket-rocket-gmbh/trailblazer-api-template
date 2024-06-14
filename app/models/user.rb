@@ -4,6 +4,10 @@ class User < ApplicationRecord
   has_secure_password validations: false
   has_one_base64_attached :profile_image
 
+  # include this to always get geolocations updates for user
+  #geocoded_by :geolocation_address
+  #after_validation :geocode
+
   belongs_to :organization
 
   enum role: {
@@ -33,5 +37,10 @@ class User < ApplicationRecord
 
   def permissions
     App::AccessPrivileges.send(role.to_sym)
+  end
+
+  def geolocation_address
+    return '' if zip_code.empty?
+    [zip_code, country].compact.join(', ')
   end
 end

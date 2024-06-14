@@ -9,6 +9,9 @@ FactoryBot.define do
     role { :user }
     status { :confirmed }
     password { Faker::Internet.password }
+    city { 'St. Wendel' }
+    zip_code { '66606' }
+    country { 'DE' }
 
     factory :user_admin do
       role { :admin }

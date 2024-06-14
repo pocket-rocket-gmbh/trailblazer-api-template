@@ -26,7 +26,10 @@ end
     password: user_password,
     organization: org,
     role: :admin,
-    status: 'confirmed'
+    status: 'confirmed',
+    city: 'St. Wendel',
+    zip_code: '66606',
+    country: 'DE'
   )
 
   puts "User ##{i+1} created"
@@ -38,7 +41,10 @@ end
     password: user_password,
     organization: org,
     role: :user,
-    status: 'confirmed'
+    status: 'confirmed',
+    city: 'Hamburg',
+    zip_code: '22765',
+    country: 'DE'
   )
 
   puts "Admin ##{i+1} created"
